@@ -1,0 +1,7 @@
+C:\Users\piter\source\repos\pandora-loader\pandora-loader\bin\Debug\pandora-loader.exe.config
+C:\Users\piter\source\repos\pandora-loader\pandora-loader\bin\Debug\pandora-loader.exe
+C:\Users\piter\source\repos\pandora-loader\pandora-loader\bin\Debug\pandora-loader.pdb
+C:\Users\piter\source\repos\pandora-loader\pandora-loader\obj\Debug\pandora-loader.csproj.AssemblyReference.cache
+C:\Users\piter\source\repos\pandora-loader\pandora-loader\obj\Debug\pandora-loader.csproj.CoreCompileInputs.cache
+C:\Users\piter\source\repos\pandora-loader\pandora-loader\obj\Debug\pandora-loader.exe
+C:\Users\piter\source\repos\pandora-loader\pandora-loader\obj\Debug\pandora-loader.pdb
