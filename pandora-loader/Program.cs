@@ -11,41 +11,75 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 
-namespace pandora_loader
+namespace primordial_loader
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
-            Console.Title = "pandora-loader";
-            Console.WriteLine("pandora-loader by louvresmile");
+            string steamdll = "steam-module.dll";
+            string cheatdll = "pandora2022.dll";
+
+            Console.Title = "primordial-loader";
+            Console.WriteLine("primordial-loader by louvresmile");
             Console.WriteLine("");
 
-            Console.WriteLine("[+] Killing steam");
-            Process.Start("taskkill", "/F /IM steam.exe");
-            Thread.Sleep(1000);
-
-            Console.WriteLine("[+] Starting steam");
-            Process.Start("steam://");
-
-            Console.WriteLine("[+] Downloading DLLs");
-
-            using (var client = new WebClient())
+            if (IsProcessRunning("steam"))
             {
-                client.DownloadFile("https://github.com/dannyluck/pandora-loader/raw/refs/heads/main/dll/pandora2022.dll", Path.Combine(Path.GetTempPath(), "pandora2022.dll"));
-                client.DownloadFile("https://github.com/dannyluck/pandora-loader/raw/refs/heads/main/dll/steam-module.dll", Path.Combine(Path.GetTempPath(), "steam-module.dll"));
+                Console.WriteLine("[+] Killing steam");
+                Process.Start("taskkill", "/F /IM steam.exe");
+                Thread.Sleep(1000);
+                Console.WriteLine("[+] Starting steam");
+                Process.Start("steam://");
             }
-            Console.WriteLine("[+] DLLs downloaded");
+            else
+            {
+                Console.WriteLine("[+] Starting steam");
+                Process.Start("steam://");
+            };
+
+            if (File.Exists(Path.Combine(Path.GetTempPath(), cheatdll)) && File.Exists(Path.Combine(Path.GetTempPath(), steamdll)))
+            {
+
+            }
+            else
+            {
+                Console.WriteLine("[+] Downloading DLLs");
+
+                if (File.Exists(Path.Combine(Path.GetTempPath(), cheatdll)))
+                {
+
+                }
+                else
+                {
+                    using (var client = new WebClient())
+                    {
+                        client.DownloadFile("https://github.com/dannyluck/pandora-loader/raw/refs/heads/main/dll/pandora2022.dll", Path.Combine(Path.GetTempPath(), cheatdll));
+                    }
+                }
+
+                if (File.Exists(Path.Combine(Path.GetTempPath(), steamdll)))
+                {
+
+                }
+                else
+                {
+                    using (var client = new WebClient())
+                    {
+                        client.DownloadFile("https://github.com/dannyluck/pandora-loader/raw/refs/heads/main/dll/steam-module.dll", Path.Combine(Path.GetTempPath(), steamdll));
+                    }
+                }
+
+                Console.WriteLine("[+] DLLs downloaded");
+            }
 
             Console.WriteLine("[+] Injecting steam module");
 
-            WaitForProcessAndInject("steam", Path.Combine(Path.GetTempPath(), "steam-module.dll"), 30000, 2000); // 30 seconds timeout
+            WaitForProcessAndInject("steam", Path.Combine(Path.GetTempPath(), steamdll), 30000, 2000); // 30 seconds timeout
 
             Console.WriteLine("[+] Waiting for CS:GO (launch manually)");
-            WaitForProcessAndInject("csgo", Path.Combine(Path.GetTempPath(), "pandora2022.dll"), 60000, 5000); // 60 seconds timeout
-
-
-            Thread.Sleep(5000);
+            WaitForProcessAndInject("csgo", Path.Combine(Path.GetTempPath(), cheatdll), 60000, 12000); // 60 seconds timeout
         }
 
         static bool IsProcessRunning(string processName)
